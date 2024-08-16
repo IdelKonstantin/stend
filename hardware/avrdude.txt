@@ -1,0 +1,9 @@
+Проверка соединения: 
+
+avrdude -c usbasp -p m128
+
+прошивка: 
+
+avrdude -c usbasp -p m128 -U flash:w:~/Документы/stend/hardware/stend_worker/build/MegaCore.avr.128/stend_worker.ino.hex
+
+
