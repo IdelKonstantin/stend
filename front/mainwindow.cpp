@@ -555,7 +555,7 @@ void MainWindow::videoThreadWorker(QString cameraName) {
 
         if(!frame.empty()) {
 
-            auto image = QImage{frame.data, frame.cols, frame.rows, static_cast<int>(frame.step[0]), QImage::Format_RGB888};
+            auto image = QImage{frame.data, frame.cols, frame.rows, static_cast<int>(frame.step[0]), QImage::Format_Grayscale16};
             ui->label_videoStream->setPixmap(QPixmap::fromImage(image));
         }
 

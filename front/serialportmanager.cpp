@@ -52,7 +52,7 @@ bool SerialPortWorker::connectToPort(const QString& portName) {
 
     m_previousPortName = portName;
 
-    m_fd = open(portName.toStdString().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+    m_fd = open(portName.toStdString().c_str(), O_RDWR);
 
     if(m_fd == -1) {
 
@@ -86,7 +86,7 @@ bool SerialPortWorker::isConnected() const {
 
 void SerialPortWorker::sendMSG(const QString& outMessage) const {
 
-    write(m_fd, outMessage.data(), outMessage.size());
+    write(m_fd, outMessage.toStdString().c_str(), outMessage.size());
 }
 
 const QString SerialPortWorker::readMsg() const {
@@ -94,7 +94,7 @@ const QString SerialPortWorker::readMsg() const {
     QByteArray bytesBuffer{BYTES_MESSAGE_SIZE, '\0'};
 
     tcflush(m_fd, TCIFLUSH);
-    auto bytesRead = read(m_fd, bytesBuffer.data(), BYTES_MESSAGE_SIZE); //TODO: check size!!!!
+    auto bytesRead = read(m_fd, bytesBuffer.data(), BYTES_MESSAGE_SIZE);
 
     if(bytesRead != -1 && bytesRead != 0) {
 
