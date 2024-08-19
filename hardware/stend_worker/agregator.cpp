@@ -30,7 +30,7 @@ argegatorCommander::argegatorCommander() {};
 String argegatorCommander::executeCommand(const String& incMsg) {
 
   if(incMsg == "GO") {
-    //Отправить в оьвете упакованное сообщение с калибровочными коэффициентами и положением выключателя "КАЛИБРОВКА"
+    //Отправить в ответе упакованное сообщение с калибровочными коэффициентами и положением выключателя "КАЛИБРОВКА"
   }
   else if(incMsg == "TON_ABB") {
 
