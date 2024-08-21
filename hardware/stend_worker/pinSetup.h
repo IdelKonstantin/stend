@@ -31,6 +31,7 @@
 namespace stend {
   
   void pinSetup();
+  void checkKalibrationAllowance();
 };
 
 #endif /* STEND_PIN_SETUP_H */

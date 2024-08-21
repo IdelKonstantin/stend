@@ -1,6 +1,8 @@
 #include "pinSetup.h"
 #include <Arduino.h>
 
+extern bool kalibrationAlowed;
+
 void stend::pinSetup() {
 
   pinMode(A4T_VENT_PIN, OUTPUT);
@@ -29,4 +31,10 @@ void stend::pinSetup() {
 
   pinMode(MOTOR_B_PLUS_PIN, OUTPUT);
   digitalWrite(A4T_VENT_PIN, LOW);
+
+  stend::checkKalibrationAllowance();
+}
+
+void stend::checkKalibrationAllowance() {
+  kalibrationAlowed = digitalRead(CALIBRATION_PIN) == LOW;
 }

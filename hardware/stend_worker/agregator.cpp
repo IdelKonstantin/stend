@@ -6,7 +6,7 @@ String agregator::executeIncomingCommand(const String& incMsg) {
   if(incMsg.startsWith("GO")) {
     
     //Отправить в ответе упакованное сообщение с калибровочными коэффициентами и положением выключателя "КАЛИБРОВКА"
-    return "GOK";//agregator::OKmsg;
+    return "GOK";
   }
   else if(incMsg.startsWith("TON_ABB")) {
 
