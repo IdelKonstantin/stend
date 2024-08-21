@@ -7,10 +7,26 @@ void stend::pinSetup() {
   digitalWrite(A4T_VENT_PIN, LOW);
 
   pinMode(A4T_HOT_PIN, OUTPUT);
-  digitalWrite(A4T_HOT_PIN, LOW);
+  analogWrite(A4T_HOT_PIN, 127); //todo read from EEPROM
 
   pinMode(ZERO_SENSOR_PIN, INPUT);
   pinMode(CALIBRATION_PIN, INPUT);
 
-  //TODO....
+  pinMode(S1_PIN, INPUT);
+  pinMode(S2_PIN, INPUT);
+
+  pinMode(DAC2_SHDN_PIN, OUTPUT);
+  digitalWrite(A4T_HOT_PIN, LOW);
+
+  pinMode(MOTOR_A_MIN_PIN, OUTPUT);
+  digitalWrite(A4T_VENT_PIN, LOW);
+
+  pinMode(MOTOR_A_PLUS_PIN, OUTPUT);
+  digitalWrite(A4T_VENT_PIN, LOW);
+
+  pinMode(MOTOR_B_MIN_PIN, OUTPUT);
+  digitalWrite(A4T_VENT_PIN, LOW);
+
+  pinMode(MOTOR_B_PLUS_PIN, OUTPUT);
+  digitalWrite(A4T_VENT_PIN, LOW);
 }

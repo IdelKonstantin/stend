@@ -1,11 +1,9 @@
 #ifndef SENSOR_ASKER_H
 #define SENSOR_ASKER_H
 
-#define SENSOR_TASK_NUM 2
-#define SENSOR_TASK_TIME 20
-
 namespace sensors {
-  void askSensorsTask();
+  
+  void askSensors();
 }
 
 #endif /* SENSOR_ASKER_H */ 

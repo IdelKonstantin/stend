@@ -1,19 +1,7 @@
 #include "UARTtxWorker.h"
 
-#include "queues.h"
+void UART::proceedOutcomingMessage(const String& msg) {
 
-extern cppQueue outMSGQ;
-
-void UART::proceedOutcomingMessageTask() {
-  
-  UART_data::outcomingMSG outcomingData;
-
-  while(true) {
-    
-    if (!outMSGQ.isEmpty()) {
-
-      outMSGQ.pop(&outcomingData);
-      Serial.println(outcomingData.msg);
-    }
-  }
+  Serial.print(msg);
+  //Serial.flush();
 }

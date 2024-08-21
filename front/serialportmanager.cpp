@@ -72,6 +72,7 @@ bool SerialPortWorker::connectToPort(const QString& portName) {
     options.c_cflag &= ~CSIZE;
     options.c_cflag |= CS8;
     options.c_cflag &= ~CRTSCTS;
+    options.c_lflag = 0;
 
     tcsetattr(m_fd, TCSANOW, &options);
 
@@ -91,14 +92,15 @@ void SerialPortWorker::sendMSG(const QString& outMessage) const {
 
 const QString SerialPortWorker::readMsg() const {
 
-    QByteArray bytesBuffer{BYTES_MESSAGE_SIZE, '\0'};
+    char bytesBuffer[BYTES_MESSAGE_SIZE];
 
-    tcflush(m_fd, TCIFLUSH);
-    auto bytesRead = read(m_fd, bytesBuffer.data(), BYTES_MESSAGE_SIZE);
+    std::memset(bytesBuffer, '\0', BYTES_MESSAGE_SIZE);
+
+    auto bytesRead = read(m_fd, bytesBuffer, BYTES_MESSAGE_SIZE);
 
     if(bytesRead != -1 && bytesRead != 0) {
 
-        return bytesBuffer;
+        return QString{bytesBuffer};
     }
     return QByteArray{};
 }
@@ -109,29 +111,29 @@ QString serialPortDataPreparator::prepareOutMessage(portMsg msgType, const QStri
 
     switch(msgType) {
         case portMsg::START_UP:
-            return QString{"GO"};
+            return QString{"GO\n"};
         case portMsg::TURN_ON_A4T:
-            return QString{"TON_ABB"};
+            return QString{"TON_ABB\n"};
         case portMsg::TURN_OFF_A4T:
-            return QString{"TOF_ABB"};
+            return QString{"TOF_ABB\n"};
         case portMsg::TURN_ON_VENT:
-            return QString{"TON_VNT"};
+            return QString{"TON_VNT\n"};
         case portMsg::TURN_OFF_VENT:
-            return QString{"TOF_VNT"};
+            return QString{"TOF_VNT\n"};
         case portMsg::DEF_TEMP_DELTA:
             return QString{"DEF_TDEL_"} + payload;
         case portMsg::TURN_ON_ENMMITER_1:
-            return QString{"TON_EM1"};
+            return QString{"TON_EM1\n"};
         case portMsg::TURN_ON_ENMMITER_2:
-            return QString{"TON_EM2"};
+            return QString{"TON_EM2\n"};
         case portMsg::TURN_ON_ENMMITER_3:
-            return QString{"TON_EM3"};
+            return QString{"TON_EM3\n"};
         case portMsg::TURN_OFF_ENMMITER_1:
-            return QString{"TOF_EM1"};
+            return QString{"TOF_EM1\n"};
         case portMsg::TURN_OFF_ENMMITER_2:
-            return QString{"TOF_EM2"};
+            return QString{"TOF_EM2\n"};
         case portMsg::TURN_OFF_ENMMITER_3:
-            return QString{"TOF_EM3"};
+            return QString{"TOF_EM3\n"};
         case portMsg::DEF_EMMIT_1_INTENS:
             return QString{"DEF_E1IN_"} + payload;
         case portMsg::DEF_EMMIT_2_INTENS:
@@ -141,11 +143,11 @@ QString serialPortDataPreparator::prepareOutMessage(portMsg msgType, const QStri
         case portMsg::DEF_MIRA_POS:
             return QString{"DEF_MPOS_"} + payload;
         case portMsg::SET_MIRA_ZERO:
-            return QString{"SETZ_MR"};
+            return QString{"SETZ_MR\n"};
         case portMsg::TURN_ON_ALL_DEVICES:
-            return QString{"TON_ALD"};
+            return QString{"TON_ALD\n"};
         case portMsg::TURN_OFF_ALL_DEVICES:
-            return QString{"TOF_ALD"};
+            return QString{"TOF_ALD\n"};
         case portMsg::DEF_POS_DEV_1:
             return QString{"DEF_D1PX_"} + payload;
         case portMsg::DEF_POS_DEV_2:
@@ -157,11 +159,11 @@ QString serialPortDataPreparator::prepareOutMessage(portMsg msgType, const QStri
         case portMsg::DEF_POS_DEV_3_Z:
             return QString{"DEF_D3PZ_"} + payload;
         case portMsg::SET_ZERO_DEV_1:
-            return QString{"SETZ_D1"};
+            return QString{"SETZ_D1\n"};
         case portMsg::SET_ZERO_DEV_2:
-            return QString{"SETZ_D2"};
+            return QString{"SETZ_D2\n"};
         case portMsg::SET_ZERO_DEV_3:
-            return QString{"SETZ_D3"};
+            return QString{"SETZ_D3\n"};
         default:
             return QString{};
     }

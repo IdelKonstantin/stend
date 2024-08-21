@@ -1,20 +1,23 @@
 #include "UARTrxWorker.h"
-#include "queues.h"
+#include "UARTtxWorker.h"
+#include "sensorAsker.h"
+#include "agregator.h"
 
-extern cppQueue inMSGQ;
-
-void UART::proceedIncomingMessageTask() {
+void UART::proceedMainCycle() {
 
   String incomingMSG;
 
   while(true) {
     
-    if (Serial.available()) {
+    sensors::askSensors();
+
+    if(Serial.available() > 0) {
       
-      incomingMSG = Serial.readString();
+      incomingMSG = Serial.readStringUntil('\n');
 
       if(incomingMSG.length() != 0) {
-        inMSGQ.push(&UART_data::incomingMSG{incomingMSG});
+
+        UART::proceedOutcomingMessage(agregator::executeIncomingCommand(incomingMSG));
       }
     }
   }
