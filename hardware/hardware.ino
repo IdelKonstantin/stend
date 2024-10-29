@@ -128,7 +128,7 @@ void loop() {
     /* Перезагрузка устройства */
     if(stend::UARTbuffer == "RST") {
       Serial.println("RSTOK");
-      delay(100);
+      delay(2000);
       stend::resetFunc();
     }
     /* Передвинуть миру вперед на один шаг */
