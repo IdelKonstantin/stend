@@ -42,25 +42,28 @@ public:
 enum class portMsg {
 
     //Main
-    START_UP,
-    TURN_ON_A4T,
-    TURN_OFF_A4T,
-    TURN_ON_VENT,
-    TURN_OFF_VENT,
-    DEF_TEMP_DELTA,
+    SET_THERMAL_DELTA,
     TURN_ON_ENMMITER_1,
     TURN_ON_ENMMITER_2,
-    TURN_ON_ENMMITER_3,
     TURN_OFF_ENMMITER_1,
     TURN_OFF_ENMMITER_2,
-    TURN_OFF_ENMMITER_3,
-    DEF_EMMIT_1_INTENS,
-    DEF_EMMIT_2_INTENS,
-    DEF_EMMIT_3_INTENS,
-    DEF_MIRA_POS,
-    SET_MIRA_ZERO,
+    EMMIT_1_INTENS_UP,
+    EMMIT_2_INTENS_UP,
+    EMMIT_1_INTENS_DOWN,
+    EMMIT_2_INTENS_DOWN,
+    TURN_ON_ABB,
+    TURN_OFF_ABB,
+    TURN_ON_VENT,
+    TURN_OFF_VENT,
+    STEND_RESTART,
+    MIRA_STEP_FWD,
+    MIRA_STEP_BWD,
+    MIRA_SAVE_ZERO,
+    MIRA_ERASE_ZERO,
+    MIRA_MOVE_FWD,
+    MIRA_MOVE_BWD
 
-    //Additional
+    /* Additional
     TURN_ON_ALL_DEVICES,
     TURN_OFF_ALL_DEVICES,
     DEF_POS_DEV_1,
@@ -70,7 +73,7 @@ enum class portMsg {
     DEF_POS_DEV_3_Z,
     SET_ZERO_DEV_1,
     SET_ZERO_DEV_2,
-    SET_ZERO_DEV_3,
+    SET_ZERO_DEV_3, */
 };
 
 class serialPortDataPreparator {

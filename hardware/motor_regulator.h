@@ -160,6 +160,8 @@ public:
     }
 
     stop();
+    Serial.print("MMFOK");
+    Serial.println(getCounter());
   }
 
   void goBackward(uint16_t steps) {
@@ -169,5 +171,8 @@ public:
     }
 
     stop();
+
+    Serial.print("MMBOK");
+    Serial.println(getCounter());
   }
 };

@@ -68,6 +68,14 @@ private slots:
     void on_pushButtonKorrPlus_clicked();
 
     void on_tabWidget_currentChanged(int index);
+    void on_pushButtonRestart_pressed();
+
+    void on_pushButtonIzluch1Down_pressed();
+    void on_pushButtonIzluch2Down_pressed();
+    void on_pushButtonIzluch1Up_pressed();
+    void on_pushButtonIzluch2Up_pressed();
+
+    void on_checkBoxResetMiraZero_clicked();
 
 private:
 

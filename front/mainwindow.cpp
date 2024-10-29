@@ -33,11 +33,16 @@ void MainWindow::setup() {
         ui->comboBox_cameras->addItem(cam);
     }
 
+    for(int i = 1; i <= 10; i++) {
+        ui->comboBox_tdeltas->addItem(QString::number(i));
+    }
+/*
     //Current back temperature
     ui->lineEditFonTemp->setText(QString::number(m_achtWorker.getbackTemperature(), 'f', 1));
 
     //Current Mira position
     ui->lineEditTekPolozh->setText(QString::number(m_miraWorker.getCurrentPosition(), 'f', 1));
+*/
 }
 
 void MainWindow::on_pushButton_connectPort_pressed() {
@@ -50,8 +55,6 @@ void MainWindow::on_pushButton_connectPort_pressed() {
         ui->label_portStatus->setText("OK");
 
         QString infoMsg = "Подключение к порту: " + portFileName + " (успешно)";
-        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::START_UP)); 
-
         m_threadPool.push([this](int){UARTRxThreadWorker();});
     }
     else {
@@ -96,7 +99,7 @@ void MainWindow::on_checkBoxChT_clicked() {
     if(m_achtWorker.getTurnOnACHTFlag()) {
         if(m_port.isConnected()) {
 
-            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::TURN_ON_A4T));
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::TURN_ON_ABB));
             ui->lineEditDebugPrintout->setText("АЧТ включено");
         }
         else {
@@ -106,7 +109,7 @@ void MainWindow::on_checkBoxChT_clicked() {
     else {
         if(m_port.isConnected()) {
 
-            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::TURN_OFF_A4T));
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::TURN_OFF_ABB));
             ui->lineEditDebugPrintout->setText("АЧТ выключено");
         }
         else {
@@ -201,23 +204,15 @@ void MainWindow::on_pushButtonDeltaTemp_pressed() {
 
     if(m_achtWorker.getTurnOnACHTFlag()) {
 
-        auto enteredThermalDelta = m_achtWorker.getThermalDelta();
-        auto enteredThermalDeltaString = QString::number(enteredThermalDelta, 'f', 1);
-        auto argument = QString::number(enteredThermalDelta * 10, 'f', 0);
+        auto tDelta = ui->comboBox_tdeltas->currentText().toInt() * 10;
+        auto tDeltaStr = QString::number(tDelta) + QString{'\n'};
 
-        if(enteredThermalDelta >= m_achtWorker.thermalDeltaMin() && enteredThermalDelta <= m_achtWorker.thermalDeltaMax() && enteredThermalDeltaString != "0.0") {
-
-            if(m_port.isConnected()) {
-
-                m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::DEF_TEMP_DELTA, argument));
-                infoMsg = "Температурная дельта, град.= " + enteredThermalDeltaString + " отправлена в устройство.";
-            }
-            else {
-                infoMsg = "Нет подключения к порту";
-            }
+        if(m_port.isConnected()) {
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::SET_THERMAL_DELTA, tDeltaStr));
+            infoMsg = "Температурная дельта = " + ui->comboBox_tdeltas->currentText() + " задана";
         }
         else {
-            infoMsg = "Температурная дельта введена не корректно.";
+            infoMsg = "Нет подключения к порту";
         }
     }
     else {
@@ -238,7 +233,7 @@ void MainWindow::on_checkBoxMiraZero_clicked() {
         if(m_port.isConnected()) {
 
             infoMsg = "Относительный \"нуль\" установлен";
-            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::SET_MIRA_ZERO));
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_SAVE_ZERO));
         }
         else {
             infoMsg = "Нет подключения к порту";
@@ -250,38 +245,60 @@ void MainWindow::on_checkBoxMiraZero_clicked() {
 
 void MainWindow::on_textEditZadPolozh_cursorPositionChanged() {
 
+    QString infoMsg;
+
     auto enteredContent = ui->textEditZadPolozh->toPlainText();
     bool converted{false};
 
-    m_miraWorker.setZadPosition(enteredContent.toDouble(&converted));
+    double enteredNumber = enteredContent.toDouble(&converted);
 
-    QString infoMsg;
+    if (!converted) {
+        infoMsg = "Ошибка ввода положения миры. Недопустимый символ";
+        ui->lineEditDebugPrintout->setText(infoMsg);
+        return;
+    }
 
-    if (converted) {
-        infoMsg = "Задано положение миры, мм. = " + QString::number(m_miraWorker.getZadPosition(), 'f', 1);
+    if (enteredNumber == 0.0) {
+        infoMsg = "Ошибка ввода положения миры. Введен нуль";
+        ui->lineEditDebugPrintout->setText(infoMsg);
+        return;
+    }
+
+    if(enteredNumber > 0) {
+        if(m_port.isConnected()) {
+
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            auto steps = static_cast<uint16_t>(enteredNumber / MIN_MIRA_STEP_MM);
+            auto stepsStr = QString::number(steps);
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_FWD, stepsStr));
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
     }
     else {
-        infoMsg = "Ошибка ввода положения миры. Недопустимый символ";
+        if(m_port.isConnected()) {
+
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            auto steps = static_cast<uint16_t>(-enteredNumber / MIN_MIRA_STEP_MM);
+            auto stepsStr = QString::number(steps);
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_BWD, stepsStr));
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
     }
+
     ui->lineEditDebugPrintout->setText(infoMsg);
 }
 
 void MainWindow::on_pushButtonKorrMinus_clicked() {
 
-    m_miraWorker.minusZadPosition();
-
-    auto miraZadPosition = m_miraWorker.getZadPosition();
-    auto argument = QString::number(miraZadPosition * 10, 'f', 0);
-
-    auto currentMiraPositionString = QString::number(miraZadPosition, 'f', 1);
-    ui->textEditZadPolozh->setText(currentMiraPositionString);
-
     QString infoMsg;
 
     if(m_port.isConnected()) {
-
-        infoMsg = "Перемещение " + currentMiraPositionString + " задано и отправлено в устройство";
-        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::DEF_MIRA_POS, argument));
+        infoMsg = "Перемещение миры на один шаг назад";
+        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_STEP_BWD));
     }
     else {
         infoMsg = "Нет подключения к порту";
@@ -292,20 +309,11 @@ void MainWindow::on_pushButtonKorrMinus_clicked() {
 
 void MainWindow::on_pushButtonKorrPlus_clicked() {
 
-    m_miraWorker.plusZadPosition();
-
-    auto miraZadPosition = m_miraWorker.getZadPosition();
-    auto argument = QString::number(miraZadPosition * 10, 'f', 0);
-
-    auto currentMiraPositionString = QString::number(miraZadPosition, 'f', 1);
-    ui->textEditZadPolozh->setText(currentMiraPositionString);
-
     QString infoMsg;
 
     if(m_port.isConnected()) {
-
-        infoMsg = "Перемещение " + currentMiraPositionString + " задано и отправлено в устройство";
-        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::DEF_MIRA_POS, argument));
+        infoMsg = "Перемещение миры на один шаг вперед";
+        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_STEP_FWD));
     }
     else {
         infoMsg = "Нет подключения к порту";
@@ -321,7 +329,6 @@ void MainWindow::on_tabWidget_currentChanged(int index) {
     QString infoMsg;
 
     if(ui->tabWidget->currentIndex() == 1 && !m_userAuthorised) {
-
         infoMsg = "Для проведения калибровки необходима аппаратная авторизация";
         ui->lineEditDebugPrintout->setText(infoMsg);
         ui->tabWidget->setCurrentIndex(0);
@@ -339,7 +346,6 @@ void MainWindow::videoThreadWorker(QString cameraName) {
         camera >> frame;
 
         if(!frame.empty()) {
-
             auto image = QImage{frame.data, frame.cols, frame.rows, static_cast<int>(frame.step[0]), QImage::Format_Grayscale16};
             ui->label_videoStream->setPixmap(QPixmap::fromImage(image));
         }
@@ -354,8 +360,6 @@ void MainWindow::UARTRxThreadWorker() {
 
     QString infoMsg;
 
-    bool startMSGgot = false;
-
     uartRxParser urp;
 
     while(m_UARTRxThreadCanRun) {
@@ -367,18 +371,163 @@ void MainWindow::UARTRxThreadWorker() {
             infoMsg = "Получено сообщение: " + stendReplay;
             ui->lineEditDebugPrintout->setText(infoMsg);
 
-            if(stendReplay.indexOf("ATSTART") != -1) {
-                if(!startMSGgot) {
-                    //TODO: Прописать логику разбора сообщения при стартапе...
-                    startMSGgot = true;
+            if(stendReplay.startsWith("CTD")) {
+
+                auto currentDeltaStr = stendReplay.mid(3);
+                auto currentTdelta = currentDeltaStr.toInt() * 0.1;
+                currentDeltaStr = QString::number(currentTdelta, 'f', 1);
+
+                if(currentDeltaStr == "0.1") {
+                    currentDeltaStr = "0.0";
                 }
+
+                ui->lineEditFonTemp->setText(currentDeltaStr);
             }
-            else if(stendReplay.indexOf("TMP_A4T") != -1) {
-                ui->lineEditFonTemp->setText(urp.getDoubleAsString(stendReplay, uartRxParser::oneDigit));
+            else if(stendReplay.startsWith("MMFOK") || stendReplay.startsWith("MMBOK")) {
+
+                auto currentPos = stendReplay.mid(5).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 2);
+                ui->lineEditTekPolozh->setText(currentPosStr);
+            }
+            else if(stendReplay == "RSTOK") {
+                ui->lineEditDebugPrintout->setText("Перезапуск стенда через 5 сек.");
+            }
+            else if(stendReplay == "STROK") {
+                ui->lineEditDebugPrintout->setText("Стенд запущен");
+                ui->lineEditFonTemp->setText("");
+                ui->lineEditTekPolozh->setText("");
             }
         }
-
         sleep(0L);
     }
 }
 
+
+void MainWindow::on_pushButtonRestart_pressed()
+{
+    QString infoMsg;
+
+    if(m_port.isConnected()) {
+
+        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::STEND_RESTART));
+        infoMsg = "Запрос на перезапуск стенда";
+    }
+    else {
+        infoMsg = "Нет подключения к порту";
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
+
+void MainWindow::on_pushButtonIzluch1Down_pressed()
+{
+    QString infoMsg;
+
+    if(m_izluchWorker.getTurnOnIzluch1Flag()) {
+
+        if(m_port.isConnected()) {
+
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::EMMIT_1_INTENS_DOWN));
+            infoMsg = "Уменьшение интенсивности излучателя №1";
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+    else {
+        infoMsg = "Излучатель №1 выключен";
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
+
+void MainWindow::on_pushButtonIzluch2Down_pressed()
+{
+    QString infoMsg;
+
+    if(m_izluchWorker.getTurnOnIzluch2Flag()) {
+
+        if(m_port.isConnected()) {
+
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::EMMIT_2_INTENS_DOWN));
+            infoMsg = "Уменьшение интенсивности излучателя №2";
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+    else {
+        infoMsg = "Излучатель №2 выключен";
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
+
+void MainWindow::on_pushButtonIzluch1Up_pressed()
+{
+    QString infoMsg;
+
+    if(m_izluchWorker.getTurnOnIzluch1Flag()) {
+
+        if(m_port.isConnected()) {
+
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::EMMIT_1_INTENS_UP));
+            infoMsg = "Увеличение интенсивности излучателя №1";
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+    else {
+        infoMsg = "Излучатель №1 выключен";
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
+
+void MainWindow::on_pushButtonIzluch2Up_pressed()
+{
+    QString infoMsg;
+
+    if(m_izluchWorker.getTurnOnIzluch2Flag()) {
+
+        if(m_port.isConnected()) {
+
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::EMMIT_2_INTENS_UP));
+            infoMsg = "Увеличение интенсивности излучателя №2";
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+    else {
+        infoMsg = "Излучатель №2 выключен";
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
+void MainWindow::on_checkBoxResetMiraZero_clicked()
+{
+    m_miraWorker.clickResetZero();
+
+    QString infoMsg;
+
+    if(m_miraWorker.getResetZerolag()) {
+
+        if(m_port.isConnected()) {
+
+            infoMsg = "Относительный \"нуль\" сброшен";
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_ERASE_ZERO));
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}

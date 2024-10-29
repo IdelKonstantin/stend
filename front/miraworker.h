@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#define MIN_MIRA_STEP_MM 0.025
+
 class MiraWorker {
 
 private:
@@ -17,6 +19,7 @@ private:
     double m_zadPosition{0};
 
     bool m_saveZeroFlag{false};
+    bool m_resetZeroFlag{false};
 
 public:
 
@@ -24,6 +27,9 @@ public:
 
     void clickSaveZero();
     bool getSaveZerolag() const;
+
+    void clickResetZero();
+    bool getResetZerolag() const;
 
     void setCurrentPosition(double currentPosition);
     double getCurrentPosition() const;

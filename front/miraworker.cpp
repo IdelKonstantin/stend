@@ -7,6 +7,16 @@ void MiraWorker::clickSaveZero() {
     m_saveZeroFlag = !m_saveZeroFlag;
 }
 
+void MiraWorker::clickResetZero() {
+
+    m_resetZeroFlag = !m_resetZeroFlag;
+}
+
+bool MiraWorker::getResetZerolag() const {
+
+    return m_resetZeroFlag;
+}
+
 bool MiraWorker::getSaveZerolag() const {
 
     return m_saveZeroFlag;

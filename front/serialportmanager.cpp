@@ -76,8 +76,8 @@ bool SerialPortWorker::connectToPort(const QString& portName) {
     options.c_cflag &= ~CRTSCTS;
     options.c_lflag &= ~(ECHO|ICANON|ISIG);
 
-    options.c_cc[VMIN] = 16;//16
-    options.c_cc[VTIME] = 10;//20
+    options.c_cc[VMIN] = 16;
+    options.c_cc[VTIME] = 10;
 
     tcsetattr(m_fd, TCSANOW, &options);
 
@@ -118,60 +118,47 @@ serialPortDataPreparator::serialPortDataPreparator() {}
 QString serialPortDataPreparator::prepareOutMessage(portMsg msgType, const QString& payload) {
 
     switch(msgType) {
-        case portMsg::START_UP:
-            return QString{"GO\n"};
-        case portMsg::TURN_ON_A4T:
-            return QString{"TON_ABB\n"};
-        case portMsg::TURN_OFF_A4T:
-            return QString{"TOF_ABB\n"};
+
+        case portMsg::SET_THERMAL_DELTA:
+            return QString{"STD"} + payload + QString{'\n'};
+        case portMsg::TURN_ON_ENMMITER_1:
+            return QString{"LT1ON\n"};
+        case portMsg::TURN_ON_ENMMITER_2:
+            return QString{"LT2ON\n"};
+        case portMsg::TURN_OFF_ENMMITER_1:
+            return QString{"LT1OFF\n"};
+        case portMsg::TURN_OFF_ENMMITER_2:
+            return QString{"LT2OFF\n"};
+        case portMsg::EMMIT_1_INTENS_UP:
+            return QString{"LT1U\n"};
+        case portMsg::EMMIT_2_INTENS_UP:
+            return QString{"LT2U\n"};
+        case portMsg::EMMIT_1_INTENS_DOWN:
+            return QString{"LT1D\n"};
+        case portMsg::EMMIT_2_INTENS_DOWN:
+            return QString{"LT2D\n"};
+        case portMsg::TURN_ON_ABB:
+            return QString{"BBON\n"};
+        case portMsg::TURN_OFF_ABB:
+            return QString{"BBOFF\n"};
         case portMsg::TURN_ON_VENT:
-            return QString{"TON_VNT\n"};
+            return QString{"VON\n"};
         case portMsg::TURN_OFF_VENT:
-            return QString{"TOF_VNT\n"};
-        case portMsg::DEF_TEMP_DELTA:
-            return QString{"DEF_TDEL_"} + payload;
-//        case portMsg::TURN_ON_ENMMITER_1:
-//            return QString{"TON_EM1\n"};
-//        case portMsg::TURN_ON_ENMMITER_2:
-//            return QString{"TON_EM2\n"};
-//        case portMsg::TURN_ON_ENMMITER_3:
-//            return QString{"TON_EM3\n"};
-//        case portMsg::TURN_OFF_ENMMITER_1:
-//            return QString{"TOF_EM1\n"};
-//        case portMsg::TURN_OFF_ENMMITER_2:
-//            return QString{"TOF_EM2\n"};
-//        case portMsg::TURN_OFF_ENMMITER_3:
-//            return QString{"TOF_EM3\n"};
-        case portMsg::DEF_EMMIT_1_INTENS:
-            return QString{"DEF_E1IN_"} + payload;
-        case portMsg::DEF_EMMIT_2_INTENS:
-            return QString{"DEF_E2IN_"} + payload;
-        case portMsg::DEF_EMMIT_3_INTENS:
-            return QString{"DEF_E3IN_"} + payload;
-        case portMsg::DEF_MIRA_POS:
-            return QString{"DEF_MPOS_"} + payload;
-        case portMsg::SET_MIRA_ZERO:
-            return QString{"SETZ_MR\n"};
-//        case portMsg::TURN_ON_ALL_DEVICES:
-//            return QString{"TON_ALD\n"};
-//        case portMsg::TURN_OFF_ALL_DEVICES:
-//            return QString{"TOF_ALD\n"};
-        case portMsg::DEF_POS_DEV_1:
-            return QString{"DEF_D1PX_"} + payload;
-        case portMsg::DEF_POS_DEV_2:
-            return QString{"DEF_D2PX_"} + payload;
-        case portMsg::DEF_POS_DEV_3_X:
-            return QString{"DEF_D3PX_"} + payload;
-        case portMsg::DEF_POS_DEV_3_Y:
-            return QString{"DEF_D3PY_"} + payload;
-        case portMsg::DEF_POS_DEV_3_Z:
-            return QString{"DEF_D3PZ_"} + payload;
-        case portMsg::SET_ZERO_DEV_1:
-            return QString{"SETZ_D1\n"};
-        case portMsg::SET_ZERO_DEV_2:
-            return QString{"SETZ_D2\n"};
-        case portMsg::SET_ZERO_DEV_3:
-            return QString{"SETZ_D3\n"};
+            return QString{"VOFF\n"};
+        case portMsg::STEND_RESTART:
+            return QString{"RST\n"};
+        case portMsg::MIRA_STEP_FWD:
+            return QString{"MFS\n"};
+        case portMsg::MIRA_STEP_BWD:
+            return QString{"MBS\n"};
+        case portMsg::MIRA_SAVE_ZERO:
+            return QString{"MSZ\n"};
+        case portMsg::MIRA_ERASE_ZERO:
+            return QString{"MRZ\n"};
+        case portMsg::MIRA_MOVE_FWD:
+            return QString{"MMF"} + payload + QString{'\n'};
+        case portMsg::MIRA_MOVE_BWD:
+            return QString{"MMB"} + payload + QString{'\n'};
         default:
             return QString{};
     }

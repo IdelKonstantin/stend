@@ -248,7 +248,7 @@
         <string>Задать дельту, град.</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_ports_2">
+      <widget class="QComboBox" name="comboBox_tdeltas">
        <property name="geometry">
         <rect>
          <x>225</x>
@@ -422,7 +422,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Задать положение, мм</string>
+        <string>Переместить миру, мм</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTekPolozh">
@@ -695,8 +695,8 @@
      <rect>
       <x>520</x>
       <y>599</y>
-      <width>500</width>
-      <height>71</height>
+      <width>311</width>
+      <height>70</height>
      </rect>
     </property>
     <property name="acceptDrops">
@@ -730,6 +730,26 @@
     </property>
     <property name="text">
      <string>Отладочные сообщения</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRestart">
+    <property name="geometry">
+     <rect>
+      <x>834</x>
+      <y>600</y>
+      <width>181</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arimo</family>
+      <pointsize>12</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>Перезапуск стенда</string>
     </property>
    </widget>
   </widget>
