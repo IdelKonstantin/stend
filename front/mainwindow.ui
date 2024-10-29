@@ -431,7 +431,7 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>225</x>
          <y>40</y>
          <width>100</width>
          <height>34</height>
@@ -488,7 +488,7 @@
       <widget class="QPushButton" name="pushButtonKorrPlus">
        <property name="geometry">
         <rect>
-         <x>400</x>
+         <x>405</x>
          <y>40</y>
          <width>60</width>
          <height>36</height>
@@ -514,7 +514,7 @@
       <widget class="QTextEdit" name="textEditZadPolozh">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>225</x>
          <y>82</y>
          <width>100</width>
          <height>34</height>
@@ -570,7 +570,7 @@
         <rect>
          <x>335</x>
          <y>80</y>
-         <width>125</width>
+         <width>130</width>
          <height>36</height>
         </rect>
        </property>
