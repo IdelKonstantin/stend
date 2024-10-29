@@ -695,7 +695,7 @@
      <rect>
       <x>520</x>
       <y>599</y>
-      <width>311</width>
+      <width>341</width>
       <height>70</height>
      </rect>
     </property>
@@ -735,9 +735,9 @@
    <widget class="QPushButton" name="pushButtonRestart">
     <property name="geometry">
      <rect>
-      <x>834</x>
+      <x>864</x>
       <y>600</y>
-      <width>181</width>
+      <width>151</width>
       <height>70</height>
      </rect>
     </property>
@@ -749,7 +749,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Перезапуск стенда</string>
+     <string>Рестарт стенда</string>
     </property>
    </widget>
   </widget>
