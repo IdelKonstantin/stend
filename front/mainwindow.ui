@@ -194,7 +194,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Температура фона, град.</string>
+        <string>Текущая дельта, град.</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditFonTemp">
@@ -245,17 +245,26 @@
         </font>
        </property>
        <property name="text">
-        <string>Температурная дельта, град.</string>
+        <string>Задать дельту, град.</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEditDeltaTemp">
+      <widget class="QComboBox" name="comboBox_ports_2">
        <property name="geometry">
         <rect>
          <x>225</x>
-         <y>116</y>
+         <y>115</y>
          <width>100</width>
          <height>34</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arimo</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
        </property>
       </widget>
      </widget>
@@ -265,7 +274,7 @@
         <x>5</x>
         <y>175</y>
         <width>480</width>
-        <height>180</height>
+        <height>151</height>
        </rect>
       </property>
       <property name="font">
@@ -278,74 +287,26 @@
       <property name="title">
        <string notr="true">ИЗЛУЧАТЕЛИ</string>
       </property>
-      <widget class="QLabel" name="label_VKLIzl">
-       <property name="geometry">
-        <rect>
-         <x>9</x>
-         <y>37</y>
-         <width>28</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>ВКЛ </string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_ZadYark">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>37</y>
-         <width>137</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string> Заданная яркость, лк</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxIzluch3">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>140</y>
-         <width>28</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
       <widget class="QCheckBox" name="checkBoxIzluch1">
        <property name="geometry">
         <rect>
          <x>11</x>
          <y>60</y>
-         <width>28</width>
+         <width>163</width>
          <height>20</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Arimo</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>true</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="text">
-        <string/>
+        <string>ВКЛ/ВЫКЛ излуч. №1</string>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBoxIzluch2">
@@ -353,151 +314,73 @@
         <rect>
          <x>11</x>
          <y>100</y>
-         <width>28</width>
+         <width>164</width>
          <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekYar_1">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>55</y>
-         <width>100</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekYar_2">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>95</y>
-         <width>100</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekYar_3">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>135</y>
-         <width>100</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonZadYark1">
-       <property name="geometry">
-        <rect>
-         <x>350</x>
-         <y>55</y>
-         <width>100</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Задать</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonZadYark2">
-       <property name="geometry">
-        <rect>
-         <x>350</x>
-         <y>95</y>
-         <width>100</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Задать</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonZadYark3">
-       <property name="geometry">
-        <rect>
-         <x>350</x>
-         <y>135</y>
-         <width>100</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Задать</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_TekYark">
-       <property name="geometry">
-        <rect>
-         <x>45</x>
-         <y>37</y>
-         <width>134</width>
-         <height>18</height>
         </rect>
        </property>
        <property name="font">
         <font>
          <family>Arimo</family>
-         <pointsize>8</pointsize>
+         <pointsize>10</pointsize>
          <weight>50</weight>
          <italic>true</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="text">
-        <string> Текущая яркость, лк </string>
+        <string>ВКЛ/ВЫКЛ излуч. №2</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEditZadYar_3">
+      <widget class="QPushButton" name="pushButtonIzluch1Down">
        <property name="geometry">
         <rect>
-         <x>205</x>
-         <y>135</y>
-         <width>100</width>
-         <height>34</height>
+         <x>195</x>
+         <y>50</y>
+         <width>130</width>
+         <height>36</height>
         </rect>
        </property>
-      </widget>
-      <widget class="QTextEdit" name="textEditZadYar_2">
-       <property name="geometry">
-        <rect>
-         <x>205</x>
-         <y>95</y>
-         <width>100</width>
-         <height>34</height>
-        </rect>
+       <property name="text">
+        <string>Тусклее</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="textEditZadYar_1">
+      <widget class="QPushButton" name="pushButtonIzluch2Down">
        <property name="geometry">
         <rect>
-         <x>205</x>
-         <y>55</y>
-         <width>100</width>
-         <height>34</height>
+         <x>195</x>
+         <y>90</y>
+         <width>130</width>
+         <height>36</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>Тусклее</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonIzluch1Up">
+       <property name="geometry">
+        <rect>
+         <x>335</x>
+         <y>50</y>
+         <width>130</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Ярче</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButtonIzluch2Up">
+       <property name="geometry">
+        <rect>
+         <x>335</x>
+         <y>90</y>
+         <width>130</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Ярче</string>
        </property>
       </widget>
      </widget>
@@ -505,9 +388,9 @@
       <property name="geometry">
        <rect>
         <x>5</x>
-        <y>365</y>
+        <y>334</y>
         <width>480</width>
-        <height>160</height>
+        <height>191</height>
        </rect>
       </property>
       <property name="font">
@@ -539,7 +422,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Заданное положение, мм</string>
+        <string>Задать положение, мм</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEditTekPolozh">
@@ -605,8 +488,8 @@
       <widget class="QPushButton" name="pushButtonKorrPlus">
        <property name="geometry">
         <rect>
-         <x>410</x>
-         <y>48</y>
+         <x>400</x>
+         <y>40</y>
          <width>60</width>
          <height>36</height>
         </rect>
@@ -618,8 +501,8 @@
       <widget class="QPushButton" name="pushButtonKorrMinus">
        <property name="geometry">
         <rect>
-         <x>345</x>
-         <y>48</y>
+         <x>335</x>
+         <y>40</y>
          <width>60</width>
          <height>36</height>
         </rect>
@@ -641,8 +524,8 @@
       <widget class="QCheckBox" name="checkBoxMiraZero">
        <property name="geometry">
         <rect>
-         <x>315</x>
-         <y>125</y>
+         <x>310</x>
+         <y>160</y>
          <width>155</width>
          <height>22</height>
         </rect>
@@ -660,110 +543,12 @@
         <string>Запомнить &quot;нуль&quot;</string>
        </property>
       </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tabAdditions">
-     <attribute name="title">
-      <string>Калибровка</string>
-     </attribute>
-     <widget class="QGroupBox" name="groupBox_DopUstr1">
-      <property name="geometry">
-       <rect>
-        <x>7</x>
-        <y>60</y>
-        <width>480</width>
-        <height>125</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string notr="true"/>
-      </property>
-      <widget class="QLabel" name="labelZadPolozh_ustr1">
+      <widget class="QCheckBox" name="checkBoxResetMiraZero">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>80</y>
-         <width>188</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Заданное положение, мм</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekuschPolozh_ustr1">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>40</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTekuschPolozh_ustr1">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>179</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Текущее положение, мм</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelUstr1">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>10</y>
-         <width>129</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>УСТРОЙСТВО 1</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelKorrectUstr1">
-       <property name="geometry">
-        <rect>
-         <x>371</x>
-         <y>11</y>
-         <width>107</width>
+         <x>140</x>
+         <y>160</y>
+         <width>155</width>
          <height>22</height>
         </rect>
        </property>
@@ -777,536 +562,20 @@
         </font>
        </property>
        <property name="text">
-        <string>КОРРЕКЦИЯ</string>
+        <string>Сбросить &quot;нуль&quot;</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButtonKorrMinusUstr1">
+      <widget class="QPushButton" name="pushButtonMiraPosZad">
        <property name="geometry">
         <rect>
-         <x>345</x>
-         <y>38</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrPlusUstr1">
-       <property name="geometry">
-        <rect>
-         <x>410</x>
-         <y>38</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxUstr1Zero">
-       <property name="geometry">
-        <rect>
-         <x>310</x>
-         <y>90</y>
-         <width>162</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Запомнить &quot;нуль&quot;</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEditZadPolozh_ustr1">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
+         <x>335</x>
          <y>80</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QCheckBox" name="checkBoxDopustr">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>188</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Включить устройства</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>10</y>
-        <width>357</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>ПОЗИЦИОНИРОВАНИЕ ДОП. УСТРОЙСТВ</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_DopUstr2">
-      <property name="geometry">
-       <rect>
-        <x>7</x>
-        <y>195</y>
-        <width>480</width>
-        <height>125</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string notr="true"/>
-      </property>
-      <widget class="QLabel" name="labelZadPolozh_ustr2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>80</y>
-         <width>188</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Заданное положение, мм</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekuschPolozh_ustr2">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>40</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTekuschPolozh_ustr2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>179</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Текущее положение, мм</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelUstr2">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>10</y>
-         <width>131</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>УСТРОЙСТВО 2</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelKorrectUstr2">
-       <property name="geometry">
-        <rect>
-         <x>371</x>
-         <y>11</y>
-         <width>107</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>КОРРЕКЦИЯ</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrPlusUstr2">
-       <property name="geometry">
-        <rect>
-         <x>410</x>
-         <y>38</y>
-         <width>60</width>
+         <width>125</width>
          <height>36</height>
         </rect>
        </property>
        <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrMinusUstr2">
-       <property name="geometry">
-        <rect>
-         <x>345</x>
-         <y>38</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxUstr2Zero">
-       <property name="geometry">
-        <rect>
-         <x>310</x>
-         <y>90</y>
-         <width>162</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Запомнить &quot;нуль&quot;</string>
-       </property>
-      </widget>
-      <widget class="QTextEdit" name="textEditZadPolozh_ustr2">
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>80</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_DopUstr3">
-      <property name="geometry">
-       <rect>
-        <x>7</x>
-        <y>330</y>
-        <width>480</width>
-        <height>200</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string notr="true"/>
-      </property>
-      <widget class="QLineEdit" name="lineEditTekuschPolozhX_ustr3">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>40</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTekuschPolozhX_ustr3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>192</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Текущее положение X, мм</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelUstr3">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>10</y>
-         <width>131</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>УСТРОЙСТВО 3</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelKorrectUstr3">
-       <property name="geometry">
-        <rect>
-         <x>370</x>
-         <y>10</y>
-         <width>107</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>КОРРЕКЦИЯ</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrMinusXUstr3">
-       <property name="geometry">
-        <rect>
-         <x>345</x>
-         <y>40</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrPlusXUstr3">
-       <property name="geometry">
-        <rect>
-         <x>410</x>
-         <y>40</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrMinusYUstr3">
-       <property name="geometry">
-        <rect>
-         <x>345</x>
-         <y>80</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekuschPolozhY_ustr3">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>80</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrPlusYUstr3">
-       <property name="geometry">
-        <rect>
-         <x>410</x>
-         <y>80</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTekuschPolozhY_ustr3">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>80</y>
-         <width>192</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Текущее положение Y, мм</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="labelTekuschPolozhY_ustr3_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>120</y>
-         <width>192</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Текущее положение Y, мм</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrPlusZUstr3">
-       <property name="geometry">
-        <rect>
-         <x>410</x>
-         <y>120</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>+</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEditTekuschPolozhZ_ustr3">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>210</x>
-         <y>120</y>
-         <width>90</width>
-         <height>34</height>
-        </rect>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonKorrMinusZUstr3">
-       <property name="geometry">
-        <rect>
-         <x>345</x>
-         <y>120</y>
-         <width>60</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>-</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxUstr3Zero">
-       <property name="geometry">
-        <rect>
-         <x>310</x>
-         <y>165</y>
-         <width>162</width>
-         <height>24</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Запомнить &quot;нуль&quot;</string>
+        <string>Задать</string>
        </property>
       </widget>
      </widget>

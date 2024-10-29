@@ -57,18 +57,10 @@ private slots:
 
     void on_checkBoxChT_clicked();
     void on_checkBoxVentilator_clicked();
-    void on_textEditDeltaTemp_cursorPositionChanged();
     void on_pushButtonDeltaTemp_pressed();
 
     void on_checkBoxIzluch1_clicked();
     void on_checkBoxIzluch2_clicked();
-    void on_checkBoxIzluch3_clicked();
-    void on_textEditZadYar_1_cursorPositionChanged();
-    void on_textEditZadYar_2_cursorPositionChanged();
-    void on_textEditZadYar_3_cursorPositionChanged();
-    void on_pushButtonZadYark1_pressed();
-    void on_pushButtonZadYark2_pressed();
-    void on_pushButtonZadYark3_pressed();
 
     void on_checkBoxMiraZero_clicked();
     void on_textEditZadPolozh_cursorPositionChanged();
@@ -76,25 +68,6 @@ private slots:
     void on_pushButtonKorrPlus_clicked();
 
     void on_tabWidget_currentChanged(int index);
-    void on_checkBoxDopustr_clicked();
-    void on_checkBoxUstr1Zero_clicked();
-    void on_checkBoxUstr2Zero_clicked();
-    void on_checkBoxUstr3Zero_clicked();
-    void on_textEditZadPolozh_ustr1_cursorPositionChanged();
-    void on_textEditZadPolozh_ustr2_cursorPositionChanged();
-
-    void on_pushButtonKorrPlusUstr1_clicked();
-    void on_pushButtonKorrMinusUstr1_clicked();
-
-    void on_pushButtonKorrPlusUstr2_clicked();
-    void on_pushButtonKorrMinusUstr2_clicked();
-
-    void on_pushButtonKorrPlusXUstr3_clicked();
-    void on_pushButtonKorrMinusXUstr3_clicked();
-    void on_pushButtonKorrPlusYUstr3_clicked();
-    void on_pushButtonKorrMinusYUstr3_clicked();
-    void on_pushButtonKorrPlusZUstr3_clicked();
-    void on_pushButtonKorrMinusZUstr3_clicked();
 
 private:
 

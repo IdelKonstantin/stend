@@ -1,0 +1,26 @@
+Проверка соединения: 
+
+avrdude -c usbasp -p m128
+
+прошивка: 
+
+avrdude -c usbasp -p m128 -U flash:w:stend_worker.ino.hex
+
+Фьюзы для 8МГц (RC)
+
+avrdude -c usbasp -p m128 -U hfuse:r:-:h -U lfuse:r:-:h -U efuse:r:-:h
+
+Processing -U hfuse:r:-:h
+0xd7
+
+Processing -U lfuse:r:-:h
+0xe4
+
+Processing -U efuse:r:-:h
+0xff
+
+для 8МГц (кварц)
+
+-U lfuse:w:0xff:m -U hfuse:w:0xd7:m -U efuse:w:0xff:m
+
+

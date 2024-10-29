@@ -1,9 +1,0 @@
-Проверка соединения: 
-
-avrdude -c usbasp -p m128
-
-прошивка: 
-
-avrdude -c usbasp -p m128 -U flash:w:stend_worker.ino.hex
-
-

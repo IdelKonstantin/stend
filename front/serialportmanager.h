@@ -18,7 +18,7 @@ public:
 #include <termios.h>
 #include <unistd.h>
 
-#define BYTES_MESSAGE_SIZE 16
+#define BYTES_MESSAGE_SIZE 32
 
 class SerialPortWorker {
 
