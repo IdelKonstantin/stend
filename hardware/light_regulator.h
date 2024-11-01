@@ -25,7 +25,7 @@ private:
   void setintencity(uint8_t emmiterNum);
 
 public:
-  lightregulator();
+  lightregulator(__SPI_CLASS__ *inSPI);
 
   void init();
   void on(uint8_t emmiterNum);
@@ -34,7 +34,7 @@ public:
   void slowDown(uint8_t emmiterNum);
 };
 
-lightregulator::lightregulator() {};
+lightregulator::lightregulator(__SPI_CLASS__ *inSPI) : m_mcp4922(inSPI) {};
 
 void lightregulator::setintencity(uint8_t emmiterNum) {
 
@@ -47,7 +47,7 @@ void lightregulator::setintencity(uint8_t emmiterNum) {
 }
 
 void lightregulator::init() {
-  
+    
   m_mcp4922.begin(DAC2_CS_PIN);
   m_mcp4922.setLatchPin(DAC2_LDAC_PIN);
 

@@ -4,7 +4,7 @@ avrdude -c usbasp -p m128
 
 прошивка: 
 
-avrdude -c usbasp -p m128 -U flash:w:hardware.ino.with_bootloader.hex
+avrdude -c usbasp -p m128 -U flash:w:hardware.ino.hex
 
 Фьюзы для 8МГц (RC)
 
