@@ -33,7 +33,7 @@ private:
     stend::warmer_data_t m_warmerData;
   
 public:
-    const stend::warmer_data_t& dataForThermalDelta(uint8_t thermalDelta);
+    const stend::warmer_data_t& dataForThermalDelta(uint8_t thermalDelta, bool& cooledOnes);
     uint8_t warmerData::currentThermalDelta(stend::ADC_diff_t adcDiff, stend::ADC_resolution_t res);
 };
 

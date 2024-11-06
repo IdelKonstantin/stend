@@ -27,6 +27,8 @@ private:
     stend::ADC_t m_ADC0Read{0};
     String m_message;
 
+    bool m_cooledOnes{false};
+
 private:
     pwmWorker m_pwm;
     adcPIDWorker m_pidADC;

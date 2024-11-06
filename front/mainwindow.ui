@@ -97,7 +97,7 @@
       <x>10</x>
       <y>100</y>
       <width>500</width>
-      <height>570</height>
+      <height>581</height>
      </rect>
     </property>
     <property name="font">
@@ -268,129 +268,13 @@
        </property>
       </widget>
      </widget>
-     <widget class="QGroupBox" name="groupBox_Izluch">
+     <widget class="QGroupBox" name="groupBox_Mira">
       <property name="geometry">
        <rect>
         <x>5</x>
         <y>175</y>
         <width>480</width>
-        <height>151</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string notr="true">ИЗЛУЧАТЕЛИ</string>
-      </property>
-      <widget class="QCheckBox" name="checkBoxIzluch1">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>60</y>
-         <width>163</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>ВКЛ/ВЫКЛ излуч. №1</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="checkBoxIzluch2">
-       <property name="geometry">
-        <rect>
-         <x>11</x>
-         <y>100</y>
-         <width>164</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arimo</family>
-         <pointsize>10</pointsize>
-         <weight>50</weight>
-         <italic>true</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>ВКЛ/ВЫКЛ излуч. №2</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonIzluch1Down">
-       <property name="geometry">
-        <rect>
-         <x>195</x>
-         <y>50</y>
-         <width>130</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Тусклее</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonIzluch2Down">
-       <property name="geometry">
-        <rect>
-         <x>195</x>
-         <y>90</y>
-         <width>130</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Тусклее</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonIzluch1Up">
-       <property name="geometry">
-        <rect>
-         <x>335</x>
-         <y>50</y>
-         <width>130</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Ярче</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButtonIzluch2Up">
-       <property name="geometry">
-        <rect>
-         <x>335</x>
-         <y>90</y>
-         <width>130</width>
-         <height>36</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Ярче</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QGroupBox" name="groupBox_Mira">
-      <property name="geometry">
-       <rect>
-        <x>5</x>
-        <y>334</y>
-        <width>480</width>
-        <height>191</height>
+        <height>190</height>
        </rect>
       </property>
       <property name="font">
@@ -579,6 +463,60 @@
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="label_debugPrint">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>375</y>
+        <width>231</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Cообщения стенда</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditDebugPrintout">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>400</y>
+        <width>480</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButtonRestart">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>460</y>
+        <width>160</width>
+        <height>70</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arimo</family>
+        <pointsize>12</pointsize>
+        <italic>true</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>Рестарт стенда</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -687,22 +625,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="lineEditDebugPrintout">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>599</y>
-      <width>341</width>
-      <height>70</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
@@ -713,44 +635,6 @@
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-   </widget>
-   <widget class="QLabel" name="label_debugPrint">
-    <property name="geometry">
-     <rect>
-      <x>528</x>
-      <y>570</y>
-      <width>231</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Отладочные сообщения</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonRestart">
-    <property name="geometry">
-     <rect>
-      <x>864</x>
-      <y>600</y>
-      <width>151</width>
-      <height>70</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Arimo</family>
-      <pointsize>12</pointsize>
-      <italic>true</italic>
-     </font>
-    </property>
-    <property name="text">
-     <string>Рестарт стенда</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

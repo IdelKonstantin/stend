@@ -4,7 +4,7 @@
 
 #define DELTAS_SIZE 10
 #define START_THERMAL_DELTA 0
-#define DEBOUNCE_DELAY delay(500);
+#define DEBOUNCE_DELAY delay(1000);
 #define RESTART_DELAY delay(5000);
 
 namespace stend {

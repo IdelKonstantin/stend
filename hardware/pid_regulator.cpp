@@ -45,10 +45,12 @@ void pidRegulator::tickTackToe() {
 
       if(m_ADCdiffRead > m_warmerData.adc - PID_THRESHOLD) {
 
-          Serial.println("PID_COOL_DOWN_VENT_ON");
-        
-          turnONVentilator();
-          m_pwm.setIntencity(1);
+          if(m_cooledOnes) {
+            Serial.println("PID_COOL_DOWN_VENT_ON");
+            turnONVentilator();
+            m_pwm.setIntencity(1);
+            m_cooledOnes = false;
+          }
       }
       else {
         
@@ -90,7 +92,7 @@ void pidRegulator::tickTackToe() {
 
 void pidRegulator::keepThermalDelta(uint8_t thermalDelta) {
 
-  m_warmerData = m_pidParams.dataForThermalDelta(thermalDelta);
+  m_warmerData = m_pidParams.dataForThermalDelta(thermalDelta, m_cooledOnes);
 }
 
 void pidRegulator::on() {
@@ -243,7 +245,7 @@ void pwmWorker::setIntencity(uint16_t intencity) const {
     OCR1A = intencity;
 }
 
-const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta) {
+const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta, bool& cooledOnes) {
 
   if(thermalDelta == 0) {
     
@@ -259,6 +261,10 @@ const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta
   
   m_warmerData.warmDirection = (thermalDelta > m_warmerData.prevDelta) ? PID_WARM_UP : PID_COOL_DOWN;
   m_warmerData.prevDelta = thermalDelta;
+
+  if(m_warmerData.warmDirection == PID_COOL_DOWN) {
+    cooledOnes = true;
+  }
 
   switch(thermalDelta) {
       case 10:
