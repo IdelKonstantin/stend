@@ -52,9 +52,9 @@ void loop() {
       stend::lastIndex = stend::UARTbuffer.length();
       stend::setedDelta = static_cast<uint8_t>(stend::UARTbuffer.substring(stend::firstIndex, stend::lastIndex).toInt());
 
-      UARTMessage = "STDOK";
-      UARTMessage += String{(uint16_t)stend::setedDelta};
-      Serial.println(UARTMessage);
+      stend::UARTMessage = "STDOK";
+      stend::UARTMessage += String{(uint16_t)stend::setedDelta};
+      Serial.println(stend::UARTMessage);
       
       pid.keepThermalDelta(stend::setedDelta);
       DEBOUNCE_DELAY;
