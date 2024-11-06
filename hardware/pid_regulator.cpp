@@ -34,34 +34,52 @@ void pidRegulator::tickTackToe() {
       return;
     }
 
-    m_ADCdiffRead = readCurrentADCDiff();
+    String ctd = "CTD";
+    ctd += String{(uint16_t)readCurrentThermalDiff()};
     
-    Serial.print("CTD");
-    Serial.println((uint16_t)readCurrentThermalDiff());
+    Serial.println(ctd);
 
     if(m_warmerData.warmDirection == PID_COOL_DOWN) {
 
+      Serial.println("PID_COOL_DOWN");
+
       if(m_ADCdiffRead > m_warmerData.adc - PID_THRESHOLD) {
+
+          Serial.println("PID_COOL_DOWN_VENT_ON");
+        
           turnONVentilator();
           m_pwm.setIntencity(1);
       }
       else {
+        
         turnOFFVentilator();
 
         if(m_ADCdiffRead > m_warmerData.adc) {
+
+          Serial.println("PID_COOL_DOWN_STEP_DOWN");
           m_pwm.setIntencity(m_warmerData.pwm - PID_STEP);
         }
         else {
+
+          Serial.println("PID_COOL_DOWN_STADY_PWM");
           m_pwm.setIntencity(m_warmerData.pwm);
         }
       }
     }
     else if(m_warmerData.warmDirection == PID_WARM_UP) {
 
+      Serial.println("PID_WARM_UP");
+
       if(m_ADCdiffRead > m_warmerData.adc) {
+
+        Serial.println("PID_WARM_UP_STEP_DOWN");
+        
         m_pwm.setIntencity(m_warmerData.pwm - PID_STEP);
       }
-      else {    
+      else {
+
+        Serial.println("PID_WARM_UP_STADY_PWM");
+            
         m_pwm.setIntencity(m_warmerData.pwm);
       }
     }
@@ -109,6 +127,10 @@ stend::ADC_t pidRegulator::readCurrentADC0() const {
 uint8_t pidRegulator::readCurrentThermalDiff() {
 
   m_ADCdiffRead = readCurrentADCDiff();
+
+  Serial.print("Diff read = ");
+  Serial.println(m_ADCdiffRead);
+  
   return m_pidParams.currentThermalDelta(m_ADCdiffRead, m_warmerData.resolution);
 }
 
@@ -240,58 +262,58 @@ const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta
 
   switch(thermalDelta) {
       case 10:
-        m_warmerData.adc = 63;
+        m_warmerData.adc = 25;
         break;
       case 20:
-        m_warmerData.adc = 87;
+        m_warmerData.adc = 50;
         break;
       case 30:
-        m_warmerData.adc = 112;
+        m_warmerData.adc = 75;
         break;
       case 40:
-        m_warmerData.adc = 121;
+        m_warmerData.adc = 100;
         break;
       case 50:
-        m_warmerData.adc = 124;
+        m_warmerData.adc = 125;
         break;
       case 60:
-        m_warmerData.adc = 127;
+        m_warmerData.adc = 150;
         break;
       case 70:
-        m_warmerData.adc = 133;
+        m_warmerData.adc = 165;
         break;
       case 80:
-        m_warmerData.adc = 141;
+        m_warmerData.adc = 175;
         break;
       case 90:
-        m_warmerData.adc = 151;
+        m_warmerData.adc = 190;
         break;
       case 100:
-        m_warmerData.adc = 161;
+        m_warmerData.adc = 205;
         break;
   }
 
   switch(thermalDelta) {
       case 10:
-        m_warmerData.pwm = 100;  
+        m_warmerData.pwm = 20;  
         break;
       case 20:
-        m_warmerData.pwm = 135;  
+        m_warmerData.pwm = 50;  
         break;
       case 30:
-        m_warmerData.pwm = 183;  
+        m_warmerData.pwm = 95;  
         break;
       case 40:
-        m_warmerData.pwm = 212;  
+        m_warmerData.pwm = 135;  
         break;
       case 50:
-        m_warmerData.pwm = 229;  
+        m_warmerData.pwm = 180;  
         break;
       case 60:
-        m_warmerData.pwm = 246;  
+        m_warmerData.pwm = 245;  
         break;
       case 70:
-        m_warmerData.pwm = 270;  
+        m_warmerData.pwm = 265;  
         break;
       case 80:
         m_warmerData.pwm = 295;  
@@ -300,7 +322,7 @@ const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta
         m_warmerData.pwm = 350;  
         break;
       case 100:
-        m_warmerData.pwm = 411;  
+        m_warmerData.pwm = 400;  
         break;
   }
 
@@ -311,118 +333,108 @@ const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta
 
 uint8_t warmerData::currentThermalDelta(stend::ADC_diff_t adcDiff, stend::ADC_resolution_t res) {
 
+  Serial.print(adcDiff);
+  Serial.print(", ");
+  Serial.println(res);
+
   if(res == ADC_RESOLUTION_x1) {
     
-    if(adcDiff < 63) {
+    if(adcDiff < 25) {
       return MIN_POSSIBLE_VALUE;
     }
 
-    if(adcDiff >= 185) {
+    if(adcDiff > 205) {
       return MAX_POSSIBLE_VALUE;
     }
 
     switch(adcDiff) {
-      case 63:
+      case 25:
         return 10;
-      case 87:
+      case 50:
         return 20;
-      case 112:
+      case 75:
         return 30;
-      case 121:
+      case 100:
         return 40;
-      case 124:
+      case 125:
         return 50;
-      case 127:
+      case 150:
         return 60;
-      case 133:
+      case 165:
         return 70;
-      case 141:
+      case 175:
         return 80;
-      case 151:
+      case 190:
         return 90;
-      case 161:
+      case 205:
         return 100;
     }
 
     stend::ADC_diff_t startADC, endADC;
     uint8_t startDelta, endDelta;
 
-    if(adcDiff > 63 && adcDiff < 87) {
+    if(adcDiff > 25 && adcDiff < 50) {
 
-      startADC = 63;
-      endADC = 87;
+      startADC = 25;
+      endADC = 50;
       startDelta = 10;
       endDelta = 20;
       goto CALCULATE;
     }
-    else if(adcDiff > 87 && adcDiff < 112) {
-      startADC = 87;
-      endADC = 112;
+    else if(adcDiff > 50 && adcDiff < 75) {
+      startADC = 50;
+      endADC = 75;
       startDelta = 20;
       endDelta = 30;
       goto CALCULATE;      
     }
-    else if(adcDiff > 112 && adcDiff < 121) {
-      startADC = 112;
-      endADC = 121;
+    else if(adcDiff > 75 && adcDiff < 100) {
+      startADC = 75;
+      endADC = 100;
       startDelta = 30;
       endDelta = 40;
       goto CALCULATE;      
     }
-    else if(adcDiff > 121 && adcDiff < 124) {
-      startADC = 121;
-      endADC = 124;
+    else if(adcDiff > 100 && adcDiff < 125) {
+      startADC = 100;
+      endADC = 125;
       startDelta = 40;
       endDelta = 50;
       goto CALCULATE;      
     }
-    else if(adcDiff > 124 && adcDiff < 127) {
-      startADC = 124;
-      endADC = 127;
+    else if(adcDiff > 125 && adcDiff < 150) {
+      startADC = 125;
+      endADC = 150;
       startDelta = 50;
       endDelta = 60;
       goto CALCULATE;      
     }
-    else if(adcDiff > 127 && adcDiff < 133) {
-      startADC = 127;
-      endADC = 133;
+    else if(adcDiff > 150 && adcDiff < 165) {
+      startADC = 150;
+      endADC = 165;
       startDelta = 60;
       endDelta = 70;
       goto CALCULATE;      
     }
-    else if(adcDiff > 133 && adcDiff < 141) {
-      startADC = 133;
-      endADC = 141;
+    else if(adcDiff > 165 && adcDiff < 175) {
+      startADC = 165;
+      endADC = 175;
       startDelta = 70;
       endDelta = 80;
       goto CALCULATE;      
     }
-    else if(adcDiff > 141 && adcDiff < 151) {
-      startADC = 141;
-      endADC = 151;
+    else if(adcDiff > 175 && adcDiff < 190) {
+      startADC = 175;
+      endADC = 190;
       startDelta = 80;
       endDelta = 90;
       goto CALCULATE;      
     }
-    else if(adcDiff > 151 && adcDiff < 161) {
-      startADC = 151;
-      endADC = 161;
+    else if(adcDiff > 190 && adcDiff < 205) {
+      startADC = 190;
+      endADC = 205;
       startDelta = 90;
       endDelta = 100;
-      goto CALCULATE;      
-    }
-    else if(adcDiff > 161 && adcDiff < 175) {
-      startADC = 161;
-      endADC = 175;
-      startDelta = 100;
-      endDelta = 110;
-      goto CALCULATE;      
-    }
-    else if(adcDiff > 175 && adcDiff < 185) {
-      startADC = 175;
-      endADC = 185;
-      startDelta = 110;
-      endDelta = 120;
       goto CALCULATE;      
     }
 

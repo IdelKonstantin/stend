@@ -77,6 +77,8 @@ private slots:
 
     void on_checkBoxResetMiraZero_clicked();
 
+    void on_pushButtonMiraPosZad_pressed();
+
 private:
 
     Ui::MainWindow *ui;

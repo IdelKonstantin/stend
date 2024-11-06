@@ -1,7 +1,5 @@
 #ifndef _LIGHTREGULATOR_WORKER_H_
 #define _LIGHTREGULATOR_WORKER_H_
-
-#include "MCP_DAC.h"
 #include <SPI.h>
 
 #define DAC2_CS_PIN      43 // PA1 - DAC2
@@ -15,17 +13,17 @@
 class lightregulator {
 
 private:
-  MCP4921 m_mcp4922;
   int8_t m_inten1Index{0};
   int8_t m_inten2Index{0};
 
-  const uint8_t m_intens_1[LIGHT_INTENS_SIZE] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120};
-  const uint8_t m_intens_2[LIGHT_INTENS_SIZE] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120};
+  const uint8_t m_intens_1[LIGHT_INTENS_SIZE] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 6y  , 100, 500, 4096};
+  const uint8_t m_intens_2[LIGHT_INTENS_SIZE] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 500, 4096};
 
   void setintencity(uint8_t emmiterNum);
+  void mcp4922(uint16_t value, uint8_t channel);
 
 public:
-  lightregulator(__SPI_CLASS__ *inSPI);
+  lightregulator();
 
   void init();
   void on(uint8_t emmiterNum);
@@ -34,22 +32,36 @@ public:
   void slowDown(uint8_t emmiterNum);
 };
 
-lightregulator::lightregulator(__SPI_CLASS__ *inSPI) : m_mcp4922(inSPI) {};
+lightregulator::lightregulator() {};
+
+void lightregulator::mcp4922(uint16_t value, uint8_t channel) {
+  
+  uint16_t data = 0x3000 | value;
+  if (channel == 1) data |= 0x8000;
+  digitalWrite(DAC2_CS_PIN, LOW);
+  SPI.beginTransaction(SPISettings(16000000, MSBFIRST, SPI_MODE0));
+  SPI.transfer((uint8_t)(data >> 8));
+  SPI.transfer((uint8_t)(data & 0xFF));
+  SPI.endTransaction();
+  digitalWrite(DAC2_CS_PIN, HIGH);
+}
 
 void lightregulator::setintencity(uint8_t emmiterNum) {
 
   if(emmiterNum == FIRST_EMMITER) {
-    m_mcp4922.fastWriteA(m_intens_1[m_inten1Index]);
+    mcp4922(m_intens_1[m_inten1Index], 0);
   }
   else {
-    m_mcp4922.fastWriteB(m_intens_2[m_inten2Index]);
+    mcp4922(m_intens_1[m_inten1Index], 1);
   }
 }
 
 void lightregulator::init() {
     
-  m_mcp4922.begin(DAC2_CS_PIN);
-  m_mcp4922.setLatchPin(DAC2_LDAC_PIN);
+  pinMode(DAC2_CS_PIN, OUTPUT);
+  digitalWrite(DAC2_CS_PIN, HIGH);  
+
+  SPI.begin();
 
   off(FIRST_EMMITER);
   off(SECOND_EMMITER);
@@ -59,11 +71,11 @@ void lightregulator::on(uint8_t emmiterNum) {
 
   if(emmiterNum == FIRST_EMMITER) {
 
-    m_inten1Index = 6;
+    m_inten1Index = LIGHT_INTENS_SIZE - 2;
     setintencity(FIRST_EMMITER);
   }
   else {
-    m_inten2Index = 6;
+    m_inten2Index = LIGHT_INTENS_SIZE - 2;
     setintencity(SECOND_EMMITER);
   }
 }

@@ -245,51 +245,7 @@ void MainWindow::on_checkBoxMiraZero_clicked() {
 
 void MainWindow::on_textEditZadPolozh_cursorPositionChanged() {
 
-    QString infoMsg;
 
-    auto enteredContent = ui->textEditZadPolozh->toPlainText();
-    bool converted{false};
-
-    double enteredNumber = enteredContent.toDouble(&converted);
-
-    if (!converted) {
-        infoMsg = "Ошибка ввода положения миры. Недопустимый символ";
-        ui->lineEditDebugPrintout->setText(infoMsg);
-        return;
-    }
-
-    if (enteredNumber == 0.0) {
-        infoMsg = "Ошибка ввода положения миры. Введен нуль";
-        ui->lineEditDebugPrintout->setText(infoMsg);
-        return;
-    }
-
-    if(enteredNumber > 0) {
-        if(m_port.isConnected()) {
-
-            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
-            auto steps = static_cast<uint16_t>(enteredNumber / MIN_MIRA_STEP_MM);
-            auto stepsStr = QString::number(steps);
-            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_FWD, stepsStr));
-        }
-        else {
-            infoMsg = "Нет подключения к порту";
-        }
-    }
-    else {
-        if(m_port.isConnected()) {
-
-            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
-            auto steps = static_cast<uint16_t>(-enteredNumber / MIN_MIRA_STEP_MM);
-            auto stepsStr = QString::number(steps);
-            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_BWD, stepsStr));
-        }
-        else {
-            infoMsg = "Нет подключения к порту";
-        }
-    }
-
-    ui->lineEditDebugPrintout->setText(infoMsg);
 }
 
 void MainWindow::on_pushButtonKorrMinus_clicked() {
@@ -531,3 +487,53 @@ void MainWindow::on_checkBoxResetMiraZero_clicked()
 
     ui->lineEditDebugPrintout->setText(infoMsg);
 }
+
+void MainWindow::on_pushButtonMiraPosZad_pressed()
+{
+    QString infoMsg;
+
+    auto enteredContent = ui->textEditZadPolozh->toPlainText();
+    bool converted{false};
+
+    double enteredNumber = enteredContent.toDouble(&converted);
+
+    if (!converted) {
+        infoMsg = "Ошибка ввода положения миры. Недопустимый символ";
+        ui->lineEditDebugPrintout->setText(infoMsg);
+        return;
+    }
+
+    if (enteredNumber == 0.0) {
+        infoMsg = "Ошибка ввода положения миры. Введен нуль";
+        ui->lineEditDebugPrintout->setText(infoMsg);
+        return;
+    }
+
+    if(enteredNumber > 0) {
+        if(m_port.isConnected()) {
+
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            auto steps = static_cast<uint16_t>(enteredNumber / MIN_MIRA_STEP_MM);
+            auto stepsStr = QString::number(steps);
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_FWD, stepsStr));
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+    else {
+        if(m_port.isConnected()) {
+
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            auto steps = static_cast<uint16_t>(-enteredNumber / MIN_MIRA_STEP_MM);
+            auto stepsStr = QString::number(steps);
+            m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_BWD, stepsStr));
+        }
+        else {
+            infoMsg = "Нет подключения к порту";
+        }
+    }
+
+    ui->lineEditDebugPrintout->setText(infoMsg);
+}
+
