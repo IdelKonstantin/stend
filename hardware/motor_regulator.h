@@ -71,6 +71,10 @@ private:
     }
 
     stop();
+
+    m_message = "STROK";
+    m_message += String{getCounter()};
+    Serial.println(m_message);
   }
   
   void findZero() {

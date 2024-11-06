@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     achtworker.cpp \
+    authwindow.cpp \
     cammanager.cpp \
     izluchworker.cpp \
     kalibrator.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     CThreadPool.h \
     achtworker.h \
+    authwindow.h \
     cammanager.h \
     izluchworker.h \
     kalibrator.h \
@@ -31,6 +33,7 @@ HEADERS += \
     uartrxparser.h
 
 FORMS += \
+    authwindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.

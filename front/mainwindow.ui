@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1030</width>
-    <height>730</height>
+    <height>648</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -97,7 +97,7 @@
       <x>10</x>
       <y>100</y>
       <width>500</width>
-      <height>581</height>
+      <height>491</height>
      </rect>
     </property>
     <property name="font">
@@ -495,26 +495,6 @@
       </property>
       <property name="acceptDrops">
        <bool>false</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButtonRestart">
-      <property name="geometry">
-       <rect>
-        <x>320</x>
-        <y>460</y>
-        <width>160</width>
-        <height>70</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arimo</family>
-        <pointsize>12</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>Рестарт стенда</string>
       </property>
      </widget>
     </widget>

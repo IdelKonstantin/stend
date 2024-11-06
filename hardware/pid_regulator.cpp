@@ -41,12 +41,10 @@ void pidRegulator::tickTackToe() {
 
     if(m_warmerData.warmDirection == PID_COOL_DOWN) {
 
-      Serial.println("PID_COOL_DOWN");
-
       if(m_ADCdiffRead > m_warmerData.adc - PID_THRESHOLD) {
 
           if(m_cooledOnes) {
-            Serial.println("PID_COOL_DOWN_VENT_ON");
+            
             turnONVentilator();
             m_pwm.setIntencity(1);
             m_cooledOnes = false;
@@ -58,29 +56,21 @@ void pidRegulator::tickTackToe() {
 
         if(m_ADCdiffRead > m_warmerData.adc) {
 
-          Serial.println("PID_COOL_DOWN_STEP_DOWN");
           m_pwm.setIntencity(m_warmerData.pwm - PID_STEP);
         }
         else {
 
-          Serial.println("PID_COOL_DOWN_STADY_PWM");
           m_pwm.setIntencity(m_warmerData.pwm);
         }
       }
     }
     else if(m_warmerData.warmDirection == PID_WARM_UP) {
 
-      Serial.println("PID_WARM_UP");
-
       if(m_ADCdiffRead > m_warmerData.adc) {
-
-        Serial.println("PID_WARM_UP_STEP_DOWN");
         
         m_pwm.setIntencity(m_warmerData.pwm - PID_STEP);
       }
       else {
-
-        Serial.println("PID_WARM_UP_STADY_PWM");
             
         m_pwm.setIntencity(m_warmerData.pwm);
       }
@@ -129,10 +119,6 @@ stend::ADC_t pidRegulator::readCurrentADC0() const {
 uint8_t pidRegulator::readCurrentThermalDiff() {
 
   m_ADCdiffRead = readCurrentADCDiff();
-
-  Serial.print("Diff read = ");
-  Serial.println(m_ADCdiffRead);
-  
   return m_pidParams.currentThermalDelta(m_ADCdiffRead, m_warmerData.resolution);
 }
 
@@ -338,10 +324,6 @@ const stend::warmer_data_t& warmerData::dataForThermalDelta(uint8_t thermalDelta
 }
 
 uint8_t warmerData::currentThermalDelta(stend::ADC_diff_t adcDiff, stend::ADC_resolution_t res) {
-
-  Serial.print(adcDiff);
-  Serial.print(", ");
-  Serial.println(res);
 
   if(res == ADC_RESOLUTION_x1) {
     

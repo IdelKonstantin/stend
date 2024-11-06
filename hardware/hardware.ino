@@ -4,12 +4,13 @@
 
 #define DELTAS_SIZE 10
 #define START_THERMAL_DELTA 0
-#define DEBOUNCE_DELAY delay(1000);
+#define DEBOUNCE_DELAY delay(500);
 #define RESTART_DELAY delay(5000);
 
 namespace stend {
 
   String UARTbuffer;
+  String UARTMessage;
   uint8_t setedDelta;
   uint16_t setedMiraSteps;
 
@@ -29,10 +30,8 @@ void setup() {
 
   pid.init();
   pid.keepThermalDelta(START_THERMAL_DELTA);
-  motor.init();
   //light.init();
-  
-  Serial.println("STROK");
+  motor.init();
 }
 
 void loop() {
@@ -52,9 +51,11 @@ void loop() {
   
       stend::lastIndex = stend::UARTbuffer.length();
       stend::setedDelta = static_cast<uint8_t>(stend::UARTbuffer.substring(stend::firstIndex, stend::lastIndex).toInt());
-  
-      Serial.print("STDOK");
-      Serial.println(stend::setedDelta);
+
+      UARTMessage = "STDOK";
+      UARTMessage += String{(uint16_t)stend::setedDelta};
+      Serial.println(UARTMessage);
+      
       pid.keepThermalDelta(stend::setedDelta);
       DEBOUNCE_DELAY;
       continue;

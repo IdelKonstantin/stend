@@ -15,6 +15,8 @@
 #include <opencv2/opencv.hpp>
 #include <utility>
 
+#include "authwindow.h"
+
 /*
 
 # Install minimal prerequisites (Ubuntu 18.04 as reference)
@@ -79,6 +81,8 @@ private slots:
 
     void on_pushButtonMiraPosZad_pressed();
 
+    void on_checkBoxMiraZero_stateChanged(int arg1);
+
 private:
 
     Ui::MainWindow *ui;
@@ -95,12 +99,12 @@ private:
 
     threadpool::CThreadPool m_threadPool{2};
 
+    AuthWindow m_auth;
+
     bool m_videoThreadCanRun{true};
     bool m_UARTRxThreadCanRun{true};
 
 private:
-
-    bool m_userAuthorised{false};
 
 private:
 

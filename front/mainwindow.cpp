@@ -9,6 +9,8 @@
 
 #include "uartrxparser.h"
 
+bool m_userAuthorised{false};
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -43,6 +45,7 @@ void MainWindow::setup() {
     //Current Mira position
     ui->lineEditTekPolozh->setText(QString::number(m_miraWorker.getCurrentPosition(), 'f', 1));
 */
+    m_auth.setModal(this);
 }
 
 void MainWindow::on_pushButton_connectPort_pressed() {
@@ -224,13 +227,17 @@ void MainWindow::on_pushButtonDeltaTemp_pressed() {
 
 void MainWindow::on_checkBoxMiraZero_clicked() {
 
-    m_miraWorker.clickSaveZero();
-
     QString infoMsg;
+
+    m_miraWorker.clickSaveZero();
 
     if(m_miraWorker.getSaveZerolag()) {
 
         if(m_port.isConnected()) {
+
+            if(!m_userAuthorised) {
+                m_auth.exec();
+            }
 
             infoMsg = "Относительный \"нуль\" установлен";
             m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_SAVE_ZERO));
@@ -476,6 +483,10 @@ void MainWindow::on_checkBoxResetMiraZero_clicked()
     if(m_miraWorker.getResetZerolag()) {
 
         if(m_port.isConnected()) {
+
+            if(!m_userAuthorised) {
+                m_auth.exec();
+            }
 
             infoMsg = "Относительный \"нуль\" сброшен";
             m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_ERASE_ZERO));
