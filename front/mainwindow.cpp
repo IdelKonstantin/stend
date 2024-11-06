@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include <QThread>
 
 #include <functional>
 #include <unistd.h>
@@ -59,6 +60,9 @@ void MainWindow::on_pushButton_connectPort_pressed() {
 
         QString infoMsg = "Подключение к порту: " + portFileName + " (успешно)";
         m_threadPool.push([this](int){UARTRxThreadWorker();});
+
+        QThread::sleep(1);
+        m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::STEND_RESTART));
     }
     else {
 
@@ -331,8 +335,8 @@ void MainWindow::UARTRxThreadWorker() {
 
         if(!stendReplay.isEmpty()) {
 
-            infoMsg = "Получено сообщение: " + stendReplay;
-            ui->lineEditDebugPrintout->setText(infoMsg);
+//            infoMsg = "Получено сообщение: " + stendReplay;
+//            ui->lineEditDebugPrintout->setText(infoMsg);
 
             if(stendReplay.startsWith("CTD")) {
 
@@ -341,24 +345,66 @@ void MainWindow::UARTRxThreadWorker() {
                 currentDeltaStr = QString::number(currentTdelta, 'f', 1);
 
                 if(currentDeltaStr == "0.1") {
-                    currentDeltaStr = "0.0";
+                    currentDeltaStr = "<1.0";
+                }
+                if(currentDeltaStr == "25.5") {
+                    currentDeltaStr = ">10.0";
                 }
 
                 ui->lineEditFonTemp->setText(currentDeltaStr);
             }
-            else if(stendReplay.startsWith("MMFOK") || stendReplay.startsWith("MMBOK")) {
+            else if(stendReplay.contains("MMBOK")) {
 
-                auto currentPos = stendReplay.mid(5).toInt() * MIN_MIRA_STEP_MM;
-                auto currentPosStr = QString::number(currentPos, 'f', 2);
+                auto begIndex = stendReplay.indexOf("MMBOK");
+                auto endIndex = stendReplay.indexOf('\n', begIndex + 1);
+                auto lenght = endIndex - begIndex;
+
+                auto currentPos = stendReplay.mid(begIndex + 5, lenght).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
+                ui->lineEditTekPolozh->setText(currentPosStr);
+            }
+            else if(stendReplay.contains("MMFOK")) {
+
+                auto begIndex = stendReplay.indexOf("MMFOK");
+                auto endIndex = stendReplay.indexOf('\n', begIndex + 1);
+                auto lenght = endIndex - begIndex;
+
+                auto currentPos = stendReplay.mid(begIndex + 5, lenght).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
                 ui->lineEditTekPolozh->setText(currentPosStr);
             }
             else if(stendReplay == "RSTOK") {
                 ui->lineEditDebugPrintout->setText("Перезапуск стенда через 5 сек.");
             }
-            else if(stendReplay == "STROK") {
+            else if(stendReplay.startsWith("STROK")) {
+
                 ui->lineEditDebugPrintout->setText("Стенд запущен");
                 ui->lineEditFonTemp->setText("");
-                ui->lineEditTekPolozh->setText("");
+
+                auto currentPos = stendReplay.mid(5).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
+
+                ui->lineEditTekPolozh->setText(currentPosStr);
+            }
+            else if(stendReplay.contains("MFSOK")) {
+
+                auto begIndex = stendReplay.indexOf("MFSOK");
+                auto endIndex = stendReplay.indexOf('\n', begIndex + 1);
+                auto lenght = endIndex - begIndex;
+
+                auto currentPos = stendReplay.mid(begIndex + 5, lenght).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
+                ui->lineEditTekPolozh->setText(currentPosStr);
+            }
+            else if(stendReplay.contains("MBSOK")) {
+
+                auto begIndex = stendReplay.indexOf("MBSOK");
+                auto endIndex = stendReplay.indexOf('\n', begIndex + 1);
+                auto lenght = endIndex - begIndex;
+
+                auto currentPos = stendReplay.mid(begIndex + 5, lenght).toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
+                ui->lineEditTekPolozh->setText(currentPosStr);
             }
         }
         sleep(0L);

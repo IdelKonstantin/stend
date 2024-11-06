@@ -63,6 +63,7 @@ private:
     steps = EEPROM.get(0, steps);
 
     if(steps == -1) {
+      Serial.println("STROK0");
       return;
     }
 
