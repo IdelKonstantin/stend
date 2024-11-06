@@ -5,13 +5,15 @@
 #include "adc_pid_worker.h"
 #include "warmer_info_worker.h"
 
+#include <Arduino.h>
+
 #define MIN_POSSIBLE_VALUE 1
 #define MAX_POSSIBLE_VALUE 255
 #define PID_MEASURE_INTERVAL_MSEC 30000
 
 #define A4T_VENT_PIN 32
 #define PID_THRESHOLD 5
-#define PID_STEP 2
+#define PID_STEP 5
 #define PID_ON_THERMAL_DELTA 50
 
 class pidRegulator {
@@ -23,6 +25,7 @@ private:
 
     stend::ADC_diff_t m_ADCdiffRead{0};
     stend::ADC_t m_ADC0Read{0};
+    String m_message;
 
 private:
     pwmWorker m_pwm;

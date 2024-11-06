@@ -34,10 +34,10 @@ void pidRegulator::tickTackToe() {
       return;
     }
 
-    String ctd = "CTD";
-    ctd += String{(uint16_t)readCurrentThermalDiff()};
+    m_message = "CTD";
+    m_message += String{(uint16_t)readCurrentThermalDiff()};
     
-    Serial.println(ctd);
+    Serial.println(m_message);
 
     if(m_warmerData.warmDirection == PID_COOL_DOWN) {
 

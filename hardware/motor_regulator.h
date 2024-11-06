@@ -28,6 +28,7 @@ private:
   size_t m_backwardIndex{0};
   int16_t m_stepsCounter{0};
   bool m_canRun{false};
+  String m_message;
 
 private:
 
@@ -160,8 +161,10 @@ public:
     }
 
     stop();
-    Serial.print("MMFOK");
-    Serial.println(getCounter());
+
+    m_message = "MMFOK";
+    m_message += String{getCounter()};
+    Serial.println(m_message);
   }
 
   void goBackward(uint16_t steps) {
@@ -172,7 +175,28 @@ public:
 
     stop();
 
-    Serial.print("MMBOK");
-    Serial.println(getCounter());
+    m_message = "MMBOK";
+    m_message += String{getCounter()};
+    Serial.println(m_message);
+  }
+
+  void miraJustOneBackwardStep() {
+    
+    makeStepBackward();
+    stop();
+    
+    m_message = "MBSOK";
+    m_message += String{getCounter()};
+    Serial.println(m_message);
+  }
+
+  void miraJustOneForwardStep() {
+    
+    makeStepForward();
+    stop();
+
+    m_message = "MFSOK";
+    m_message += String{getCounter()};
+    Serial.println(m_message);
   }
 };

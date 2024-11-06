@@ -4,7 +4,7 @@
 
 #define DELTAS_SIZE 10
 #define START_THERMAL_DELTA 0
-#define DEBOUNCE_DELAY delay(1000);
+#define DEBOUNCE_DELAY delay(500);
 #define RESTART_DELAY delay(5000);
 
 namespace stend {
@@ -156,17 +156,13 @@ void loop() {
     }  
     /* Передвинуть миру вперед на один шаг */
     if(stend::UARTbuffer == "MFS") {
-      Serial.println("MFSOK");
-      motor.makeStepForward();
-      motor.stop();
+      motor.miraJustOneForwardStep();
       DEBOUNCE_DELAY;
       continue;
     }
     /* Передвинуть миру назад на один шаг */
     if(stend::UARTbuffer == "MBS") {
-      Serial.println("MBSOK");
-      motor.makeStepBackward();
-      motor.stop();
+      motor.miraJustOneBackwardStep();
       DEBOUNCE_DELAY;
       continue;
     }
