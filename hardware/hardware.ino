@@ -4,7 +4,7 @@
 
 #define DELTAS_SIZE 10
 #define START_THERMAL_DELTA 0
-#define DEBOUNCE_DELAY delay(500);
+#define DEBOUNCE_DELAY delay(100);
 #define RESTART_DELAY delay(5000);
 
 namespace stend {
@@ -19,6 +19,8 @@ namespace stend {
 
   void(* resetFunc) (void) = 0;
 };
+
+bool deltaIsSet{false};
 
 pidRegulator pid;
 motorRouter motor;
@@ -48,6 +50,8 @@ void loop() {
     
     /* Установка температурной дельты - STD30 - 3 градуса и т.д.*/
     if(stend::UARTbuffer.startsWith("STD")) { 
+
+      deltaIsSet = true;
   
       stend::lastIndex = stend::UARTbuffer.length();
       stend::setedDelta = static_cast<uint8_t>(stend::UARTbuffer.substring(stend::firstIndex, stend::lastIndex).toInt());
@@ -114,62 +118,62 @@ void loop() {
 //      continue;
 //    }
     /* АЧТ ВКЛ */
-    if(stend::UARTbuffer == "BBON") {
+    if(stend::UARTbuffer.startsWith("BBON")) {
       Serial.println("BBONOK");
       pid.on();
       DEBOUNCE_DELAY;
       continue;
     }
     /* АЧТ ВЫКЛ */
-    if(stend::UARTbuffer == "BBOFF") {
+    if(stend::UARTbuffer.startsWith("BBOFF")) {
       Serial.println("BBOFFOK");
       pid.off();
       DEBOUNCE_DELAY;
       continue;
     }
     /* Вентилятор ВКЛ */
-    if(stend::UARTbuffer == "VON") {
+    if(stend::UARTbuffer.startsWith("VON")) {
       Serial.println("VONOK");
       pid.turnONVentilator();
       DEBOUNCE_DELAY;
       continue;
     }
     /* Вентилятор ВЫКЛ */
-    if(stend::UARTbuffer == "VOFF") {
+    if(stend::UARTbuffer.startsWith("VOFF")) {
       Serial.println("VOFFOK");
       pid.turnOFFVentilator();
       DEBOUNCE_DELAY;
       continue;
     }
     /* Перезагрузка устройства */
-    if(stend::UARTbuffer == "RST") {
+    if(stend::UARTbuffer.startsWith("RST")) {
       Serial.println("RSTOK");
       RESTART_DELAY;
       stend::resetFunc();
     }
   
     /* Сбросить "нулевое" положение миры */
-    if(stend::UARTbuffer == "MRZ") {
+    if(stend::UARTbuffer.startsWith("MRZ")) {
       Serial.println("MRZOK");
       motor.eraseStartPosition();
       DEBOUNCE_DELAY;
       continue;
     }  
     /* Передвинуть миру вперед на один шаг */
-    if(stend::UARTbuffer == "MFS") {
+    if(stend::UARTbuffer.startsWith("MFS")) {
       motor.miraJustOneForwardStep();
       DEBOUNCE_DELAY;
       continue;
     }
     /* Передвинуть миру назад на один шаг */
-    if(stend::UARTbuffer == "MBS") {
+    if(stend::UARTbuffer.startsWith("MBS")) {
       motor.miraJustOneBackwardStep();
       DEBOUNCE_DELAY;
       continue;
     }
   
     /* Установить "нулевое" положение миры */
-    if(stend::UARTbuffer == "MSZ") {
+    if(stend::UARTbuffer.startsWith("MSZ")) {
       Serial.println("MSZOK");
       motor.savecurrentPositionAsStart();
       DEBOUNCE_DELAY;

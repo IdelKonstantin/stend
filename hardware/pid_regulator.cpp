@@ -4,6 +4,8 @@
 
 #include <Arduino.h>
 
+extern bool deltaIsSet; // TODO!!!!
+
 pidRegulator::pidRegulator() {};
 
 void pidRegulator::init() const {
@@ -21,6 +23,10 @@ void pidRegulator::turnOFFVentilator() const {
 }
 
 void pidRegulator::tickTackToe() {
+
+//  if(!deltaIsSet) {
+//    return; 
+//  }
 
   m_currentTime = millis();
 

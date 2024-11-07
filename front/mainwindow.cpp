@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QThread>
+#include <QRegularExpression>
 
 #include <functional>
 #include <unistd.h>
@@ -56,10 +57,11 @@ void MainWindow::on_pushButton_connectPort_pressed() {
     if(m_port.connectToPort(portFileName)) {
 
         ui->label_portStatus->setText("Подключено");
-        ui->label_portStatus->setText("OK");
+        //ui->label_portStatus->setText("OK");
 
-        QString infoMsg = "Подключение к порту: " + portFileName + " (успешно)";
+        QString infoMsg = "Подключен к порту: " + portFileName;
         m_threadPool.push([this](int){UARTRxThreadWorker();});
+        ui->lineEditDebugPrintout->setText(infoMsg);
 
         QThread::sleep(1);
         m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::STEND_RESTART));
@@ -335,8 +337,10 @@ void MainWindow::UARTRxThreadWorker() {
 
         if(!stendReplay.isEmpty()) {
 
-//            infoMsg = "Получено сообщение: " + stendReplay;
-//            ui->lineEditDebugPrintout->setText(infoMsg);
+            std::cout << "Получение: " << stendReplay.toStdString() <<  std::endl;
+
+            //infoMsg = stendReplay;
+            //ui->lineEditDebugPrintout->setText(infoMsg);
 
             if(stendReplay.startsWith("CTD")) {
 
@@ -373,18 +377,25 @@ void MainWindow::UARTRxThreadWorker() {
                 auto currentPosStr = QString::number(currentPos, 'f', 3);
                 ui->lineEditTekPolozh->setText(currentPosStr);
             }
-            else if(stendReplay == "RSTOK") {
+            else if(stendReplay.contains("RSTOK")) {
                 ui->lineEditDebugPrintout->setText("Перезапуск стенда через 5 сек.");
             }
-            else if(stendReplay.startsWith("STROK")) {
+            else if(stendReplay.contains("STROK")) {
+
+                auto begIndex = stendReplay.indexOf("STROK");
+                auto endIndex = stendReplay.indexOf('\n', begIndex + 1);
+                auto lenght = endIndex - begIndex;
+
+                auto foo = stendReplay.mid(begIndex + 5, 6);
+
+                foo.remove(QRegularExpression("[^0-9]"));
+
+                auto currentPos = foo.toInt() * MIN_MIRA_STEP_MM;
+                auto currentPosStr = QString::number(currentPos, 'f', 3);
+                ui->lineEditTekPolozh->setText(currentPosStr);
 
                 ui->lineEditDebugPrintout->setText("Стенд запущен");
-                ui->lineEditFonTemp->setText("");
-
-                auto currentPos = stendReplay.mid(5).toInt() * MIN_MIRA_STEP_MM;
-                auto currentPosStr = QString::number(currentPos, 'f', 3);
-
-                ui->lineEditTekPolozh->setText(currentPosStr);
+                ui->lineEditFonTemp->setText("<1.0");
             }
             else if(stendReplay.contains("MFSOK")) {
 
@@ -569,7 +580,7 @@ void MainWindow::on_pushButtonMiraPosZad_pressed()
     if(enteredNumber > 0) {
         if(m_port.isConnected()) {
 
-            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 3);
             auto steps = static_cast<uint16_t>(enteredNumber / MIN_MIRA_STEP_MM);
             auto stepsStr = QString::number(steps);
             m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_FWD, stepsStr));
@@ -581,7 +592,7 @@ void MainWindow::on_pushButtonMiraPosZad_pressed()
     else {
         if(m_port.isConnected()) {
 
-            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 2);
+            infoMsg = "Задано положение миры, мм. = " + QString::number(enteredNumber, 'f', 3);
             auto steps = static_cast<uint16_t>(-enteredNumber / MIN_MIRA_STEP_MM);
             auto stepsStr = QString::number(steps);
             m_port.sendMSG(m_portMsgPreparator.prepareOutMessage(portMsg::MIRA_MOVE_BWD, stepsStr));

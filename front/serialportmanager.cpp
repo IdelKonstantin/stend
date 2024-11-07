@@ -92,6 +92,7 @@ bool SerialPortWorker::isConnected() const {
 
 void SerialPortWorker::sendMSG(const QString& outMessage) const {
 
+    std::cout << "Отправка: " << outMessage.toStdString() <<  std::endl;
     write(m_fd, outMessage.toStdString().c_str(), outMessage.size());
 }
 
@@ -102,9 +103,6 @@ const QString SerialPortWorker::readMsg() const {
     std::memset(bytesBuffer, '\0', BYTES_MESSAGE_SIZE);
 
     auto bytesRead = read(m_fd, &bytesBuffer, BYTES_MESSAGE_SIZE);
-
-    std::cout << "Bytes read:" << bytesRead << std::endl;
-    std::cout << "Bytes raw:" << QString{bytesBuffer}.toStdString() << std::endl;
 
     if(bytesRead != -1 && bytesRead != 0) {
 
